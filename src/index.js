@@ -2,26 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-class Square extends React.Component {
-  render() {
-    var player = {score: 1, name: 'Duncan'};
-    var newPlayer = Object.assign({}, player, {score: 2});
-    console.log(player);
-    console.log(newPlayer)
-    // Immutability（不可變性）的重要性。
-    // 不直接改變原本的值，copy 出來再修改
-    // 1. 保留原始資料，可直接在被使用
-    // 2. 偵測改變，資料跟原本不一樣代表 被改變了
-
-
-    return (
-      <button
-        className="square"
-        onClick={() => this.props.onClick({value: 'X'}) }>
-        {this.props.value}
-      </button>
-    );
-  }
+function Square(props) {
+  return (
+    <button
+      className="square"
+      onClick={props.onClick}>
+      {props.value}
+    </button>
+  );
 }
 
 class Board extends React.Component {
@@ -37,6 +25,16 @@ class Board extends React.Component {
     const squares = this.state.squares.slice();
     squares[i] = 'X';
     this.setState({squares: squares});
+
+    var player = {score: 1, name: 'Duncan'};
+    var newPlayer = Object.assign({}, player, {score: 2});
+    console.log(player);
+    console.log(newPlayer)
+    // Immutability（不可變性）的重要性。
+    // 不直接改變原本的值，copy 出來再修改
+    // 1. 保留原始資料，可直接在被使用
+    // 2. 偵測改變，資料跟原本不一樣代表 被改變了
+
   }
 
   renderSquare(i, o = 'not') {
