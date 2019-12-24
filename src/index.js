@@ -4,11 +4,14 @@ import './index.css';
 
 class Square extends React.Component {
   constructor(props) {
+    // console.log(props)
+    console.log(props.value) // 這個 props 是從 Board 傳過來的
     super(props);
     // 在 JavaScript class 中，當你定義一個 subclass 的 constructor 時，你總是會需要呼叫 super。
     // 所有的 React component class，凡是有 constructor 的，都應該要從呼叫 super(props) 開始。
     this.state = {
       value: null,
+      // 先設定為 null，被點擊時onClick={() => this.setState({value: 'X'}) 再設定成 X
     };
   }
 
@@ -24,8 +27,10 @@ class Square extends React.Component {
 }
 
 class Board extends React.Component {
-  renderSquare(i) {
-    return <Square value={i} />;
+  // Board 是 Parent
+  renderSquare(i, o = 'not') {
+    return <Square value={i} duncan={o} />;
+    // 把值傳出去讓別人可以用 props 接收
   }
 
   render() {
@@ -35,7 +40,7 @@ class Board extends React.Component {
       <div>
         <div className="status">{status}</div>
         <div className="board-row">
-          {this.renderSquare(0)}
+          {this.renderSquare(11, '2')}
           {this.renderSquare(1)}
           {this.renderSquare(2)}
         </div>
