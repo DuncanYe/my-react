@@ -3,10 +3,21 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 class Square extends React.Component {
+  constructor(props) {
+    super(props);
+    // 在 JavaScript class 中，當你定義一個 subclass 的 constructor 時，你總是會需要呼叫 super。
+    // 所有的 React component class，凡是有 constructor 的，都應該要從呼叫 super(props) 開始。
+    this.state = {
+      value: null,
+    };
+  }
+
   render() {
     return (
-      <button className="square" onClick={function() { alert('出現彈跳視窗 !'); }}>
-        {this.props.value}
+      <button
+        className="square"
+        onClick={() => this.setState({value: 'X'}) }>
+        {this.state.value}
       </button>
     );
   }
