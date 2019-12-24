@@ -3,24 +3,22 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 class Square extends React.Component {
-  constructor(props) {
-    // console.log(props)
-    console.log(props.value) // 這個 props 是從 Board 傳過來的
-    super(props);
-    // 在 JavaScript class 中，當你定義一個 subclass 的 constructor 時，你總是會需要呼叫 super。
-    // 所有的 React component class，凡是有 constructor 的，都應該要從呼叫 super(props) 開始。
-    this.state = {
-      value: null,
-      // 先設定為 null，被點擊時onClick={() => this.setState({value: 'X'}) 再設定成 X
-    };
-  }
-
   render() {
+    var player = {score: 1, name: 'Duncan'};
+    var newPlayer = Object.assign({}, player, {score: 2});
+    console.log(player);
+    console.log(newPlayer)
+    // Immutability（不可變性）的重要性。
+    // 不直接改變原本的值，copy 出來再修改
+    // 1. 保留原始資料，可直接在被使用
+    // 2. 偵測改變，資料跟原本不一樣代表 被改變了
+
+
     return (
       <button
         className="square"
-        onClick={() => this.setState({value: 'X'}) }>
-        {this.state.value}
+        onClick={() => this.props.onClick({value: 'X'}) }>
+        {this.props.value}
       </button>
     );
   }
@@ -28,8 +26,27 @@ class Square extends React.Component {
 
 class Board extends React.Component {
   // Board 是 Parent
+  constructor(props) {
+    super(props);
+    this.state = {
+      squares: Array(9).fill(null),
+    };
+  }
+
+  handleClick(i) {
+    const squares = this.state.squares.slice();
+    squares[i] = 'X';
+    this.setState({squares: squares});
+  }
+
   renderSquare(i, o = 'not') {
-    return <Square value={i} duncan={o} />;
+    // 這個方法在 board-row 裡被呼叫出來
+    // 然後在呼叫 Square class 顯示出每一個方格的值
+    return <Square
+             value={this.state.squares[i]}
+             onClick={() => this.handleClick(i) }
+             duncan={o}
+           />;
     // 把值傳出去讓別人可以用 props 接收
   }
 
