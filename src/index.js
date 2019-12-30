@@ -30,7 +30,7 @@ class Board extends React.Component {
       return; // 勝負揭曉就提早回傳，不再印上 X 或 O
     }
 
-    // console.log(squares[i]) //這時一定是 null 
+    // console.log(squares[i]) //這時一定是 null
     squares[i] = this.state.xIsNext ? 'X' : 'O';
     // console.log(squares[i]) //這時會印上 X 或 O
     // 一開始整個 squares 是有 9 個 null 值的 Array
@@ -64,7 +64,7 @@ class Board extends React.Component {
   }
 
   render() {
-    const winner = calculateWinner(this.state.squares);
+    const winner = calculateWinner(this.state.squares); // 把所有格子上個 X O 傳進去得回傳值
     let status;
     if (winner) {
       status = 'Winner: ' + winner;
@@ -124,7 +124,7 @@ function calculateWinner(squares) {
   ];
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+    if (squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a];
     }
   }
