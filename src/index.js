@@ -2,7 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+// Game 呼叫 Board ，Board 呼叫 Square
+
 function Square(props) {
+  // 沒有 constructor state 只有 render ，所以把這個 Component 改寫成 Function Commponent
   return (
     <button
       className="square"
@@ -13,12 +16,11 @@ function Square(props) {
 }
 
 class Board extends React.Component {
-  // Board 是 Parent
   constructor(props) {
     super(props);
     this.state = {
-      squares: Array(9).fill(null),
-      xIsNext: true,
+      squares: Array(9).fill(null), // 製造一個有9個 null 值的 Array，對應 renderSquare 的 0 ~ 8
+      xIsNext: true, // true 是 X，false 是 O
     };
   }
 
@@ -27,21 +29,27 @@ class Board extends React.Component {
     if (calculateWinner(squares) || squares[i]) {
       return; // 勝負揭曉就提早回傳，不再印上 X 或 O
     }
+
+    // console.log(squares[i]) //這時一定是 null 
     squares[i] = this.state.xIsNext ? 'X' : 'O';
+    // console.log(squares[i]) //這時會印上 X 或 O
+    // 一開始整個 squares 是有 9 個 null 值的 Array
+    // 在這裡透過把每一個 square 設定的 i (數字 0~8) 傳進來
+    // 印上 X 或 O
+    // 並把 xIsNext 反轉 !true 變成 false，讓遊戲知道下一個是換誰玩
     this.setState({
       squares: squares,
       xIsNext: !this.state.xIsNext,
     });
 
-    var player = {score: 1, name: 'Duncan'};
-    var newPlayer = Object.assign({}, player, {score: 2});
-    console.log(player);
-    console.log(newPlayer)
+    // var player = {score: 1, name: 'Duncan'};
+    // var newPlayer = Object.assign({}, player, {score: 2});
+    // console.log(player);
+    // console.log(newPlayer)
     // Immutability（不可變性）的重要性。
     // 不直接改變原本的值，copy 出來再修改
     // 1. 保留原始資料，可直接在被使用
     // 2. 偵測改變，資料跟原本不一樣代表 被改變了
-
   }
 
   renderSquare(i, o = 'not') {
@@ -52,7 +60,7 @@ class Board extends React.Component {
              onClick={() => this.handleClick(i) }
              duncan={o}
            />;
-    // 把值傳出去讓別人可以用 props 接收
+    // 把值傳出去讓子層接收的 props
   }
 
   render() {
@@ -64,12 +72,11 @@ class Board extends React.Component {
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
 
-
     return (
       <div>
         <div className="status">{status}</div>
         <div className="board-row">
-          {this.renderSquare(11, '2')}
+          {this.renderSquare(0, '2')}
           {this.renderSquare(1)}
           {this.renderSquare(2)}
         </div>
